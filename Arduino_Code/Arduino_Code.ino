@@ -62,6 +62,13 @@ void setup() {
     }
   });
 
+  server.on("/stop", HTTP_GET, [](AsyncWebServerRequest *request){
+    normalMode = false; // Nonaktifkan mode normal
+    blinkMode = false; // Nonaktifkan mode kuning kelap-kelip
+    stopTraffic(); // Mematikan lampu hijau dan kuning, menyalakan lampu merah
+    sendJsonResponse(request, 200, "Traffic has been stopped.");
+  });
+
   server.on("/blink", HTTP_GET, [](AsyncWebServerRequest *request){
     normalMode = false; // Nonaktifkan mode normal
     blinkMode = true;
@@ -138,6 +145,15 @@ void blinkTrafficLight() {
     digitalWrite(entry.second.kuning, LOW);
   }
   delay(2000);
+}
+
+void stopTraffic() {
+  // Matikan semua lampu hijau dan kuning, nyalakan lampu merah untuk setiap jalan
+  for(auto const &entry : roads) {
+    digitalWrite(entry.second.hijau, LOW);
+    digitalWrite(entry.second.kuning, LOW);
+    digitalWrite(entry.second.merah, HIGH);
+  }
 }
 
 void turnOffLights(const Road& road) {

@@ -49,6 +49,18 @@ API ini digunakan untuk mengontrol lampu lalu lintas di beberapa jalur sekaligus
      }
      ```
 
+### 4. **Mode Stop Lalu Lintas**
+   Menyalakan lampu merah setiap jalan dan menonaktifkan lampu lainnya.
+   - **URL:** `/stop`
+   - **Method:** `GET`
+   - **Respon Sukses:**
+     ```json
+     {
+       "status": 200,
+       "message": "Traffic has been stopped."
+     }
+     ```
+
 ## Contoh Penggunaan
 
 ### Mengaktifkan Mode Normal
@@ -66,4 +78,8 @@ GET /green?road=1
 GET /blink
 ```
 
+### Mengaktifkan Mode Stop Lalu Lintas
+```http
+GET /stop
+```
 ---
