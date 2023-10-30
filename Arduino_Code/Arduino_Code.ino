@@ -88,9 +88,6 @@ void sendJsonResponse(AsyncWebServerRequest *request, int status, String message
 
 void normalTrafficLight() {
   for(auto const &entry : roads) {
-    // Matikan semua lampu
-    turnOffLights(entry.second);
-
     // Nyalakan lampu merah
     digitalWrite(entry.second.merah, HIGH);
     delay(3000);
