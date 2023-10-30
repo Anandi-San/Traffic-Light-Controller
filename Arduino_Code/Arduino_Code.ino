@@ -41,6 +41,8 @@ void setup() {
 
   Serial.println("Connected to WiFi");
 
+  Serial.println("IP Address: " + WiFi.localIP().toString());
+
   server.on("/normal", HTTP_GET, [](AsyncWebServerRequest *request){
     normalMode = true; // Aktifkan mode normal
     blinkMode = false;
