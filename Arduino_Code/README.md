@@ -17,7 +17,7 @@ API ini digunakan untuk mengontrol lampu lalu lintas di beberapa jalur sekaligus
      ```
 
 ### 2. **Aktifkan Lampu Hijau**
-   Mengaktifkan lampu hijau untuk jalur tertentu.
+   Mengaktifkan lampu hijau untuk jalur tertentu selama 5 detik.
    - **URL:** `/green?road={nomor_jalur}`
    - **Method:** `GET`
    - **Parameter:** 
