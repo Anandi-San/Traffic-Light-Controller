@@ -252,6 +252,8 @@ void stopTraffic() {
     digitalWrite(entry.second.kuning, LOW);
     digitalWrite(entry.second.merah, HIGH);
   }
+
+  delay(180000); // delay 3 jam
 }
 
 void turnOffLights(const Road& road) {
