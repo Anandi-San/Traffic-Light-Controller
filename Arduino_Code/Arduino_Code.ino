@@ -24,7 +24,7 @@ bool normalMode = true; // Variabel untuk menandakan mode normal atau tidak
 bool blinkMode = false; // Variabel untuk menandakan mode kuning kelap-kelip
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(9600);
 
   // Inisialisasi pin LED
   for(auto const &entry : roads) {
@@ -79,6 +79,8 @@ void setup() {
 }
 
 void loop() {
+  Serial.print("Local ESP32 IP: ");
+  Serial.println(WiFi.localIP());
   if(normalMode) {
     // Jika dalam mode normal, jalankan urutan lampu lalu lintas normal
     runNormalTrafficLightSequence();
@@ -225,24 +227,22 @@ void greenTrafficLight(int roadNumber) {
   Road& road = roads[roadNumber];
 
   // Matikan lampu lalu lintas yang lain dulu
-  turnOffLights(road);
+  turnOffLights();
+
+  delay(1000); // delay 1 detik
 
   // Nyalakan lampu merah untuk jalur yang tidak dipilih
   for(auto const &entry : roads) {
     if (entry.first != roadNumber) {
-      digitalWrite(entry.second.merah, HIGH);
+      digitalWrite(entry.second.merah, LOW);
     }
   }
 
   // Nyalakan lampu hijau jalan sesuai permintaan
-  digitalWrite(road.hijau, HIGH);
-  delay(5000);
+  digitalWrite(road.hijau, LOW);
+  delay(180000); // delay 3 jam
 
-  // Matikan semua lampu
-  turnOffLights(road);
-
-  // Delay 1 detik
-  delay(1000);
+  normalMode = true; // Aktifkan mode normal
 }
 
 void stopTraffic() {
@@ -254,10 +254,24 @@ void stopTraffic() {
   }
 
   delay(180000); // delay 3 jam
+
+  normalMode = true; // Aktifkan mode normal
 }
 
-void turnOffLights(const Road& road) {
-  digitalWrite(road.hijau, LOW);
-  digitalWrite(road.kuning, LOW);
-  digitalWrite(road.merah, LOW);
+void turnOffLights() {
+  digitalWrite(roads[1].merah, HIGH);
+  digitalWrite(roads[1].kuning, HIGH);
+  digitalWrite(roads[1].hijau, HIGH);
+
+  digitalWrite(roads[2].merah, HIGH);
+  digitalWrite(roads[2].kuning, HIGH);
+  digitalWrite(roads[2].hijau, HIGH);
+
+  digitalWrite(roads[3].merah, HIGH);
+  digitalWrite(roads[3].kuning, HIGH);
+  digitalWrite(roads[3].hijau, HIGH);
+
+  digitalWrite(roads[4].merah, HIGH);
+  digitalWrite(roads[4].kuning, HIGH);
+  digitalWrite(roads[4].hijau, HIGH);
 }
