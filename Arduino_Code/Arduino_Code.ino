@@ -248,9 +248,9 @@ void greenTrafficLight(int roadNumber) {
 void stopTraffic() {
   // Matikan semua lampu hijau dan kuning, nyalakan lampu merah untuk setiap jalan
   for(auto const &entry : roads) {
-    digitalWrite(entry.second.hijau, LOW);
-    digitalWrite(entry.second.kuning, LOW);
-    digitalWrite(entry.second.merah, HIGH);
+    digitalWrite(entry.second.hijau, HIGH);
+    digitalWrite(entry.second.kuning, HIGH);
+    digitalWrite(entry.second.merah, LOW);
   }
 
   delay(180000); // delay 3 jam
