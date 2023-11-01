@@ -2,8 +2,8 @@
 #include <ESPAsyncWebServer.h>
 #include <map>
 
-const char* ssid = "Nama_Wifi";
-const char* password = "Password_Wifi";
+const char* ssid = "realme 5 Pro";
+const char* password = "solitude";
 
 AsyncWebServer server(80);
 
@@ -81,10 +81,10 @@ void setup() {
 void loop() {
   if(normalMode) {
     // Jika dalam mode normal, jalankan urutan lampu lalu lintas normal
-    normalTrafficLight();
+    runNormalTrafficLightSequence();
   } else if(blinkMode) {
     // jika dalam mode blink, lampu lalu lintas menjadi kuning kelap-kelip
-    blinkTrafficLight();
+    runBlinkingSequence();
   }
 }
 
@@ -93,20 +93,132 @@ void sendJsonResponse(AsyncWebServerRequest *request, int status, String message
   request->send(200, "application/json", response);
 }
 
-void normalTrafficLight() {
-  for(auto const &entry : roads) {
-    // Nyalakan lampu merah
-    digitalWrite(entry.second.merah, HIGH);
-    delay(3000);
+void runNormalTrafficLightSequence() {
+  // jalan 1 lampu hijaunya nyala dan jalan sisanya lampu merahnya nyala
+    digitalWrite(roads[1].merah, HIGH);
+    digitalWrite(roads[1].kuning, HIGH);
+    digitalWrite(roads[1].hijau, LOW);
 
-    // Nyalakan lampu kuning
-    digitalWrite(entry.second.kuning, HIGH);
-    delay(1000);
+    digitalWrite(roads[2].merah, LOW);
+    digitalWrite(roads[2].kuning, HIGH);
+    digitalWrite(roads[2].hijau, HIGH);
 
-    // Nyalakan lampu hijau
-    digitalWrite(entry.second.hijau, HIGH);
-    delay(3000);
-  }
+    digitalWrite(roads[3].merah, LOW);
+    digitalWrite(roads[3].kuning, HIGH);
+    digitalWrite(roads[3].hijau, HIGH);
+
+    digitalWrite(roads[4].merah, LOW);
+    digitalWrite(roads[4].kuning, HIGH);
+    digitalWrite(roads[4].hijau, HIGH);
+
+    delay(3000); // delay 3 detik
+
+    // jalan 1 jadi kuning
+    digitalWrite(roads[1].kuning, LOW);
+    digitalWrite(roads[1].hijau, HIGH);
+
+    delay(1000); // delay 1 detik
+
+    // jalan 1 lampu merahnya nyala dan jalan 2 siap menjadi hijau
+    digitalWrite(roads[1].merah, LOW);
+    digitalWrite(roads[1].kuning, HIGH);
+
+    digitalWrite(roads[2].merah, HIGH);
+    digitalWrite(roads[2].kuning, LOW);
+
+    delay(1000); // delay 1 detik
+
+    // jalan 2 lampu hijaunya nyala dan lampu jalan yang lain jadi merah
+    digitalWrite(roads[2].kuning, HIGH);
+    digitalWrite(roads[2].hijau, LOW);
+
+    delay(3000); // delay 3 detik
+
+    // jalan 2 jadi kuning
+    digitalWrite(roads[2].kuning, LOW);
+    digitalWrite(roads[2].hijau, HIGH);
+
+    delay(1000); // delay 1 detik
+
+    // jalan 2 lampu merahnya nyala dan jalan 3 siap menjadi hijau
+    digitalWrite(roads[2].merah, LOW);
+    digitalWrite(roads[2].kuning, HIGH);
+
+    digitalWrite(roads[3].merah, HIGH);
+    digitalWrite(roads[3].kuning, LOW);
+
+    delay(1000); // delay 1 detik
+
+    // jalan 3 lampu hijaunya nyala dan lampu jalan yang lain jadi merah
+    digitalWrite(roads[3].kuning, HIGH);
+    digitalWrite(roads[3].hijau, LOW);
+
+    delay(3000); // delay 3 detik
+
+    // jalan 3 jadi kuning
+    digitalWrite(roads[3].kuning, LOW);
+    digitalWrite(roads[3].hijau, HIGH);
+
+    delay(1000); // delay 1 detik
+
+    // jalan 3 lampu merahnya nyala dan jalan 4 siap menjadi hijau
+    digitalWrite(roads[3].merah, LOW);
+    digitalWrite(roads[3].kuning, HIGH);
+
+    digitalWrite(roads[4].merah, HIGH);
+    digitalWrite(roads[4].kuning, LOW);
+
+    delay(1000); // delay 1 detik
+
+    // jalan 4 lampu hijaunya nyala dan lampu jalan yang lain jadi merah
+    digitalWrite(roads[4].kuning, HIGH);
+    digitalWrite(roads[4].hijau, LOW);
+
+    delay(3000); // delay 3 detik
+
+    // jalan 4 jadi kuning
+    digitalWrite(roads[4].kuning, LOW);
+    digitalWrite(roads[4].hijau, HIGH);
+
+    delay(1000); // delay 1 detik
+
+    // jalan 4 lampu merahnya nyala dan jalan 1 siap menjadi hijau
+    digitalWrite(roads[4].merah, LOW);
+    digitalWrite(roads[4].kuning, HIGH);
+
+    digitalWrite(roads[1].merah, HIGH);
+    digitalWrite(roads[1].kuning, LOW);
+
+    delay(1000); // delay 1 detik
+}
+
+void runBlinkingSequence() {
+  // lampu kuning nyala sisanya di matikan
+    digitalWrite(roads[1].merah, HIGH);
+    digitalWrite(roads[1].kuning, LOW);
+    digitalWrite(roads[1].hijau, HIGH);
+
+    digitalWrite(roads[2].merah, HIGH);
+    digitalWrite(roads[2].kuning, LOW);
+    digitalWrite(roads[2].hijau, HIGH);
+
+    digitalWrite(roads[3].merah, HIGH);
+    digitalWrite(roads[3].kuning, LOW);
+    digitalWrite(roads[3].hijau, HIGH);
+
+    digitalWrite(roads[4].merah, HIGH);
+    digitalWrite(roads[4].kuning, LOW);
+    digitalWrite(roads[4].hijau, HIGH);
+
+    delay(2000); // delay 2 detik
+
+    // lampu kuning dimatikan
+    digitalWrite(roads[1].kuning, HIGH);
+    digitalWrite(roads[2].kuning, HIGH);
+    digitalWrite(roads[3].kuning, HIGH);
+    digitalWrite(roads[4].kuning, HIGH);
+
+    delay(2000); // delay 2 detik
 }
 
 void greenTrafficLight(int roadNumber) {
@@ -131,20 +243,6 @@ void greenTrafficLight(int roadNumber) {
 
   // Delay 1 detik
   delay(1000);
-}
-
-void blinkTrafficLight() {
-  for(auto const &entry : roads) {
-    // Nyalakan kuning
-    digitalWrite(entry.second.kuning, HIGH);
-  }
-  delay(2000);
-
-  // Matikan semua lampu kuning
-  for(auto const &entry : roads) {
-    digitalWrite(entry.second.kuning, LOW);
-  }
-  delay(2000);
 }
 
 void stopTraffic() {
