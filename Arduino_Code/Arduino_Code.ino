@@ -34,15 +34,19 @@ void setup() {
     pinMode(entry.second.merah, OUTPUT);
   }
 
+  // Connect to Wi-Fi
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
     delay(1000);
-    Serial.println("Connecting to WiFi...");
+    Serial.println("Connecting to WiFi..");
   }
 
-  Serial.println("Connected to WiFi");
+  // Print ESP Local IP Address
+  Serial.println(WiFi.localIP());
 
-  Serial.println("IP Address: " + WiFi.localIP().toString());
+  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
+    sendJsonResponse(request, 200, "Halo bang");
+  });
 
   server.on("/normal", HTTP_GET, [](AsyncWebServerRequest *request){
     normalMode = true; // Aktifkan mode normal
