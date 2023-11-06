@@ -20,6 +20,8 @@ class _MyWidgetState extends State<Switchitem> {
         });
       },
       value: isSelected,
+      activeColor: Colors.white,
+      inactiveThumbColor: Colors.orange,
     );
   }
 }

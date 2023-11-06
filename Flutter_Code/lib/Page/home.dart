@@ -1,23 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:traffic_light_controller/Component/switch_item.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: Home(),
-    );
-  }
-}
-
 class Home extends StatefulWidget {
   const Home({Key? key});
 
@@ -29,12 +12,12 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFF6F1EE),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             Container(
-              color: const Color(0xFFD9D9D9),
+              color: const Color(0xFF6C5F5B),
               width: double.infinity,
               height: 100,
               child: const Align(
@@ -42,7 +25,7 @@ class _HomeState extends State<Home> {
                 child: Padding(
                   padding: EdgeInsets.only(bottom: 8.0),
                   child: Text(
-                    'Lorem Ipsum',
+                    'Traffic Light Controller',
                     style: TextStyle(
                         fontSize: 20, color: Color.fromARGB(255, 0, 0, 0)),
                   ),
@@ -57,130 +40,37 @@ class _HomeState extends State<Home> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0),
                     ),
-                    color: const Color(0xFFDCDCDC),
+                    color: const Color(0xFF4F4A45),
                     child: const ExpansionTile(
                       title: Text(
-                        'Title 1',
+                        'Lajur Utara',
                         style: TextStyle(color: Colors.white),
                       ),
                       children: <Widget>[
                         ListTile(
-                          title: Text('Item 1',
-                              style: TextStyle(color: Colors.white)),
-                          trailing: Switchitem(),
-                        ),
-                        ListTile(
-                          title: Text('Item 2',
-                              style: TextStyle(color: Colors.white)),
-                          trailing: Switchitem(),
-                        ),
-                        ListTile(
-                          title: Text('Item 3',
-                              style: TextStyle(color: Colors.white)),
-                          trailing: Switchitem(),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 30),
-                  Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    color: const Color(0xFFDCDCDC),
-                    child: const ExpansionTile(
-                      title: Text(
-                        'Title 2',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      children: <Widget>[
-                        ListTile(
-                          title: Text('Item 1',
-                              style: TextStyle(color: Colors.white)),
-                          trailing: Switchitem(),
-                        ),
-                        ListTile(
-                          title: Text('Item 2',
-                              style: TextStyle(color: Colors.white)),
-                          trailing: Switchitem(),
-                        ),
-                        ListTile(
-                          title: Text('Item 3',
-                              style: TextStyle(color: Colors.white)),
-                          trailing: Switchitem(),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 30),
-                  Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    color: const Color(0xFFDCDCDC),
-                    child: const ExpansionTile(
-                      title: Text(
-                        'Title 3',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      children: <Widget>[
-                        ListTile(
-                          title: Text('Item 1',
-                              style: TextStyle(color: Colors.white)),
-                          trailing: Switchitem(),
-                        ),
-                        ListTile(
-                          title: Text('Item 2',
-                              style: TextStyle(color: Colors.white)),
-                          trailing: Switchitem(),
-                        ),
-                        ListTile(
-                          title: Text('Item 3',
-                              style: TextStyle(color: Colors.white)),
-                          trailing: Switchitem(),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 30),
-                  Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    color: const Color(0xFFDCDCDC),
-                    child: const ExpansionTile(
-                      title: Text(
-                        'Title 4',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      children: <Widget>[
-                        ListTile(
-                          title: Text('Item 1',
+                          title: Text('Hijau',
                               style: TextStyle(color: Colors.white)),
                           trailing: Switchitem(),
                         ),
                         Divider(
-                          // Garis pemisah pertama
                           color: Color.fromARGB(255, 0, 0, 0),
                           thickness: 1,
                         ),
                         ListTile(
-                          title: Text('Item 2',
+                          title: Text('Kuning',
                               style: TextStyle(color: Colors.white)),
                           trailing: Switchitem(),
                         ),
                         Divider(
-                          // Garis pemisah pertama
                           color: Color.fromARGB(255, 0, 0, 0),
                           thickness: 1,
                         ),
                         ListTile(
-                          title: Text('Item 3',
+                          title: Text('Merah',
                               style: TextStyle(color: Colors.white)),
                           trailing: Switchitem(),
                         ),
                         Divider(
-                          // Garis pemisah pertama
                           color: Color.fromARGB(255, 0, 0, 0),
                           thickness: 1,
                         ),
@@ -192,22 +82,158 @@ class _HomeState extends State<Home> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0),
                     ),
-                    color: const Color(0xFFDCDCDC),
+                    color: const Color(0xFF4F4A45),
                     child: const ExpansionTile(
                       title: Text(
-                        'Title 5',
+                        'Lajur Barat',
                         style: TextStyle(color: Colors.white),
                       ),
                       children: <Widget>[
                         ListTile(
-                          title: Text('Item 1',
+                          title: Text('Hijau',
                               style: TextStyle(color: Colors.white)),
                           trailing: Switchitem(),
                         ),
+                        Divider(
+                          color: Color.fromARGB(255, 0, 0, 0),
+                          thickness: 1,
+                        ),
                         ListTile(
-                          title: Text('Item 2',
+                          title: Text('Kuning',
                               style: TextStyle(color: Colors.white)),
                           trailing: Switchitem(),
+                        ),
+                        Divider(
+                          color: Color.fromARGB(255, 0, 0, 0),
+                          thickness: 1,
+                        ),
+                        ListTile(
+                          title: Text('Merah',
+                              style: TextStyle(color: Colors.white)),
+                          trailing: Switchitem(),
+                        ),
+                        Divider(
+                          color: Color.fromARGB(255, 0, 0, 0),
+                          thickness: 1,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    color: const Color(0xFF4F4A45),
+                    child: const ExpansionTile(
+                      title: Text(
+                        'Lajur Selatan',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      children: <Widget>[
+                        ListTile(
+                          title: Text('Hijau',
+                              style: TextStyle(color: Colors.white)),
+                          trailing: Switchitem(),
+                        ),
+                        Divider(
+                          color: Color.fromARGB(255, 0, 0, 0),
+                          thickness: 1,
+                        ),
+                        ListTile(
+                          title: Text('Kuning',
+                              style: TextStyle(color: Colors.white)),
+                          trailing: Switchitem(),
+                        ),
+                        Divider(
+                          color: Color.fromARGB(255, 0, 0, 0),
+                          thickness: 1,
+                        ),
+                        ListTile(
+                          title: Text('Merah',
+                              style: TextStyle(color: Colors.white)),
+                          trailing: Switchitem(),
+                        ),
+                        Divider(
+                          color: Color.fromARGB(255, 0, 0, 0),
+                          thickness: 1,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    color: const Color(0xFF4F4A45),
+                    child: const ExpansionTile(
+                      title: Text(
+                        'Lajur Timur',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      children: <Widget>[
+                        ListTile(
+                          title: Text('Hijau',
+                              style: TextStyle(color: Colors.white)),
+                          trailing: Switchitem(),
+                        ),
+                        Divider(
+                          color: Color.fromARGB(255, 0, 0, 0),
+                          thickness: 1,
+                        ),
+                        ListTile(
+                          title: Text('Kuning',
+                              style: TextStyle(color: Colors.white)),
+                          trailing: Switchitem(),
+                        ),
+                        Divider(
+                          // Garis pemisah pertama
+                          color: Color.fromARGB(255, 0, 0, 0),
+                          thickness: 1,
+                        ),
+                        ListTile(
+                          title: Text('Merah',
+                              style: TextStyle(color: Colors.white)),
+                          trailing: Switchitem(),
+                        ),
+                        Divider(
+                          // Garis pemisah pertama
+                          color: Color.fromARGB(255, 0, 0, 0),
+                          thickness: 1,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    color: const Color(0xFF4F4A45),
+                    child: const ExpansionTile(
+                      title: Text(
+                        'Semua Jalur',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      children: <Widget>[
+                        ListTile(
+                          title: Text('Hijau',
+                              style: TextStyle(color: Colors.white)),
+                          trailing: Switchitem(),
+                        ),
+                        Divider(
+                          color: Color.fromARGB(255, 0, 0, 0),
+                          thickness: 1,
+                        ),
+                        ListTile(
+                          title: Text('Kuning',
+                              style: TextStyle(color: Colors.white)),
+                          trailing: Switchitem(),
+                        ),
+                        Divider(
+                          color: Color.fromARGB(255, 0, 0, 0),
+                          thickness: 1,
                         ),
                       ],
                     ),
@@ -217,7 +243,7 @@ class _HomeState extends State<Home> {
                     height: 150,
                     width: double.maxFinite,
                     decoration: BoxDecoration(
-                      color: const Color(0xFFDBD8D8),
+                      color: const Color(0xFFED7D31),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Row(
@@ -233,13 +259,13 @@ class _HomeState extends State<Home> {
                           ),
                         ),
                         const Padding(
-                          padding: EdgeInsets.only(right: 20.0),
+                          padding: EdgeInsets.only(right: 10.0),
                           child: Align(
                             alignment: Alignment.center,
                             child: Text(
-                              'Lorem Ipsum',
+                              'Kembalikan Normal',
                               style:
-                                  TextStyle(fontSize: 30, color: Colors.black),
+                                  TextStyle(fontSize: 25, color: Colors.black),
                             ),
                           ),
                         ),
