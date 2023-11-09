@@ -15,10 +15,10 @@ struct Road {
 };
 
 std::map<int, Road> roads = {
-    {1, {27, 12, 14}},
+    {1, {27, 14, 12}},
     {2, {26, 33, 15}},
     {3, {32, 16, 4}},
-    {4, {2, 1, 13}}
+    {4, {2, 17, 13}}
 };
 
 bool normalMode = true; // Variabel untuk menandakan mode normal atau tidak
@@ -84,8 +84,6 @@ void setup() {
 }
 
 void loop() {
-  Serial.print("Local ESP32 IP: ");
-  Serial.println(WiFi.localIP());
   if(normalMode) {
     // Jika dalam mode normal, jalankan urutan lampu lalu lintas normal
     runNormalTrafficLightSequence();
@@ -119,12 +117,18 @@ void runNormalTrafficLightSequence() {
     digitalWrite(roads[4].hijau, HIGH);
 
     delay(3000); // delay 3 detik
+    if (!normalMode) {
+      return;
+    }
 
     // jalan 1 jadi kuning
     digitalWrite(roads[1].kuning, LOW);
     digitalWrite(roads[1].hijau, HIGH);
 
     delay(1000); // delay 1 detik
+    if (!normalMode) {
+      return;
+    }
 
     // jalan 1 lampu merahnya nyala dan jalan 2 siap menjadi hijau
     digitalWrite(roads[1].merah, LOW);
@@ -134,18 +138,26 @@ void runNormalTrafficLightSequence() {
     digitalWrite(roads[2].kuning, LOW);
 
     delay(1000); // delay 1 detik
-
+    if (!normalMode) {
+      return;
+    }
     // jalan 2 lampu hijaunya nyala dan lampu jalan yang lain jadi merah
     digitalWrite(roads[2].kuning, HIGH);
     digitalWrite(roads[2].hijau, LOW);
 
     delay(3000); // delay 3 detik
+    if (!normalMode) {
+      return;
+    }
 
     // jalan 2 jadi kuning
     digitalWrite(roads[2].kuning, LOW);
     digitalWrite(roads[2].hijau, HIGH);
 
     delay(1000); // delay 1 detik
+    if (!normalMode) {
+      return;
+    }
 
     // jalan 2 lampu merahnya nyala dan jalan 3 siap menjadi hijau
     digitalWrite(roads[2].merah, LOW);
@@ -155,18 +167,27 @@ void runNormalTrafficLightSequence() {
     digitalWrite(roads[3].kuning, LOW);
 
     delay(1000); // delay 1 detik
+    if (!normalMode) {
+      return;
+    }
 
     // jalan 3 lampu hijaunya nyala dan lampu jalan yang lain jadi merah
     digitalWrite(roads[3].kuning, HIGH);
     digitalWrite(roads[3].hijau, LOW);
 
     delay(3000); // delay 3 detik
+    if (!normalMode) {
+      return;
+    }
 
     // jalan 3 jadi kuning
     digitalWrite(roads[3].kuning, LOW);
     digitalWrite(roads[3].hijau, HIGH);
 
     delay(1000); // delay 1 detik
+    if (!normalMode) {
+      return;
+    }
 
     // jalan 3 lampu merahnya nyala dan jalan 4 siap menjadi hijau
     digitalWrite(roads[3].merah, LOW);
@@ -176,18 +197,27 @@ void runNormalTrafficLightSequence() {
     digitalWrite(roads[4].kuning, LOW);
 
     delay(1000); // delay 1 detik
+    if (!normalMode) {
+      return;
+    }
 
     // jalan 4 lampu hijaunya nyala dan lampu jalan yang lain jadi merah
     digitalWrite(roads[4].kuning, HIGH);
     digitalWrite(roads[4].hijau, LOW);
 
     delay(3000); // delay 3 detik
+    if (!normalMode) {
+      return;
+    }
 
     // jalan 4 jadi kuning
     digitalWrite(roads[4].kuning, LOW);
     digitalWrite(roads[4].hijau, HIGH);
 
     delay(1000); // delay 1 detik
+    if (!normalMode) {
+      return;
+    }
 
     // jalan 4 lampu merahnya nyala dan jalan 1 siap menjadi hijau
     digitalWrite(roads[4].merah, LOW);
@@ -197,6 +227,9 @@ void runNormalTrafficLightSequence() {
     digitalWrite(roads[1].kuning, LOW);
 
     delay(1000); // delay 1 detik
+    if (!normalMode) {
+      return;
+    }
 }
 
 void runBlinkingSequence() {
@@ -218,6 +251,9 @@ void runBlinkingSequence() {
     digitalWrite(roads[4].hijau, HIGH);
 
     delay(2000); // delay 2 detik
+    if (!blinkMode) {
+      return;
+    }
 
     // lampu kuning dimatikan
     digitalWrite(roads[1].kuning, HIGH);
@@ -226,6 +262,9 @@ void runBlinkingSequence() {
     digitalWrite(roads[4].kuning, HIGH);
 
     delay(2000); // delay 2 detik
+    if (!blinkMode) {
+      return;
+    }
 }
 
 void greenTrafficLight(int roadNumber) {
@@ -245,7 +284,7 @@ void greenTrafficLight(int roadNumber) {
 
   // Nyalakan lampu hijau jalan sesuai permintaan
   digitalWrite(road.hijau, LOW);
-  delay(180000); // delay 3 jam
+  delay(5000); // delay 5 detik
 
   normalMode = true; // Aktifkan mode normal
 }
@@ -258,7 +297,7 @@ void stopTraffic() {
     digitalWrite(entry.second.merah, LOW);
   }
 
-  delay(180000); // delay 3 jam
+  delay(5000); // delay 5 detik
 
   normalMode = true; // Aktifkan mode normal
 }
