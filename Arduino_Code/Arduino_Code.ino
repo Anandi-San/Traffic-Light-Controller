@@ -23,6 +23,11 @@ std::map<int, Road> roads = {
 
 bool normalMode = true; // Variabel untuk menandakan mode normal atau tidak
 bool blinkMode = false; // Variabel untuk menandakan mode kuning kelap-kelip
+bool stopMode = false; // Variabel untuk menandakan mode stop
+bool greenMode1 = false;
+bool greenMode2 = false;
+bool greenMode3 = false;
+bool greenMode4 = false;
 
 void setup() {
   Serial.begin(9600);
@@ -51,6 +56,7 @@ void setup() {
   server.on("/normal", HTTP_GET, [](AsyncWebServerRequest *request){
     normalMode = true; // Aktifkan mode normal
     blinkMode = false;
+    stopMode = false;
     sendJsonResponse(request, 200, "Normal traffic light sequence started.");
   });
 
@@ -59,8 +65,17 @@ void setup() {
     int roadNumber = roadId.toInt();
     normalMode = false; // Nonaktifkan mode normal
     blinkMode = false;
+    stopMode = false;
     if (roads.find(roadNumber) != roads.end()) {
-      greenTrafficLight(roadNumber);
+      if (roadNumber == 1) {
+        greenMode1 = true;
+      }else if (roadNumber == 2) {
+        greenMode2 = true;
+      }else if (roadNumber == 3) {
+        greenMode3 = true;
+      }else if (roadNumber == 4) {
+        greenMode4 = true;
+      }
       sendJsonResponse(request, 200, "Green light activated for road " + roadId);
     } else {
       sendJsonResponse(request, 400, "Invalid road specified.");
@@ -70,7 +85,7 @@ void setup() {
   server.on("/stop", HTTP_GET, [](AsyncWebServerRequest *request){
     normalMode = false; // Nonaktifkan mode normal
     blinkMode = false; // Nonaktifkan mode kuning kelap-kelip
-    stopTraffic(); // Mematikan lampu hijau dan kuning, menyalakan lampu merah
+    stopMode = true;
     sendJsonResponse(request, 200, "Traffic has been stopped.");
   });
 
@@ -90,6 +105,17 @@ void loop() {
   } else if(blinkMode) {
     // jika dalam mode blink, lampu lalu lintas menjadi kuning kelap-kelip
     runBlinkingSequence();
+  } else if(stopMode) {
+    // Jadikan semua lampu jadi merah selama 10 detik
+    stopTraffic();
+  } else if(greenMode1) {
+    greenTrafficLight(1);
+  } else if(greenMode2) {
+    greenTrafficLight(2);
+  } else if(greenMode3) {
+    greenTrafficLight(3);
+  } else if(greenMode4) {
+    greenTrafficLight(4);
   }
 }
 
@@ -284,9 +310,14 @@ void greenTrafficLight(int roadNumber) {
 
   // Nyalakan lampu hijau jalan sesuai permintaan
   digitalWrite(road.hijau, LOW);
-  delay(5000); // delay 5 detik
+  delay(10000); // delay 10 detik
 
   normalMode = true; // Aktifkan mode normal
+  greenMode1 = false;
+  greenMode2 = false;
+  greenMode3 = false;
+  greenMode4 = false;
+  return;
 }
 
 void stopTraffic() {
@@ -297,9 +328,11 @@ void stopTraffic() {
     digitalWrite(entry.second.merah, LOW);
   }
 
-  delay(5000); // delay 5 detik
+  delay(10000); // delay 10 detik
 
   normalMode = true; // Aktifkan mode normal
+  stopMode = false;
+  return;
 }
 
 void turnOffLights() {
