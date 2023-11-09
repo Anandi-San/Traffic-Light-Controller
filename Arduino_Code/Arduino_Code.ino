@@ -147,14 +147,8 @@ void runNormalTrafficLightSequence() {
       return;
     }
 
-    // jalan 1 jadi kuning
-    digitalWrite(roads[1].kuning, LOW);
+    // jalan 1 lampu hijaunya mati
     digitalWrite(roads[1].hijau, HIGH);
-
-    delay(1000); // delay 1 detik
-    if (!normalMode) {
-      return;
-    }
 
     // jalan 1 lampu merahnya nyala dan jalan 2 siap menjadi hijau
     digitalWrite(roads[1].merah, LOW);
@@ -176,14 +170,8 @@ void runNormalTrafficLightSequence() {
       return;
     }
 
-    // jalan 2 jadi kuning
-    digitalWrite(roads[2].kuning, LOW);
+    // jalan 2 lampu hijaunya mati
     digitalWrite(roads[2].hijau, HIGH);
-
-    delay(1000); // delay 1 detik
-    if (!normalMode) {
-      return;
-    }
 
     // jalan 2 lampu merahnya nyala dan jalan 3 siap menjadi hijau
     digitalWrite(roads[2].merah, LOW);
@@ -206,14 +194,8 @@ void runNormalTrafficLightSequence() {
       return;
     }
 
-    // jalan 3 jadi kuning
-    digitalWrite(roads[3].kuning, LOW);
+    // jalan 3 lampu hijaunya mati
     digitalWrite(roads[3].hijau, HIGH);
-
-    delay(1000); // delay 1 detik
-    if (!normalMode) {
-      return;
-    }
 
     // jalan 3 lampu merahnya nyala dan jalan 4 siap menjadi hijau
     digitalWrite(roads[3].merah, LOW);
@@ -236,14 +218,8 @@ void runNormalTrafficLightSequence() {
       return;
     }
 
-    // jalan 4 jadi kuning
-    digitalWrite(roads[4].kuning, LOW);
+    // jalan 4 lampu hijaunya mati
     digitalWrite(roads[4].hijau, HIGH);
-
-    delay(1000); // delay 1 detik
-    if (!normalMode) {
-      return;
-    }
 
     // jalan 4 lampu merahnya nyala dan jalan 1 siap menjadi hijau
     digitalWrite(roads[4].merah, LOW);
@@ -299,7 +275,7 @@ void greenTrafficLight(int roadNumber) {
   // Matikan lampu lalu lintas yang lain dulu
   turnOffLights();
 
-  delay(1000); // delay 1 detik
+  delay(500); // delay 0.5 detik
 
   // Nyalakan lampu merah untuk jalur yang tidak dipilih
   for(auto const &entry : roads) {
