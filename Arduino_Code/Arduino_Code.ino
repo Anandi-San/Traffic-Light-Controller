@@ -1,10 +1,17 @@
 #include <WiFi.h>
 #include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>
+#include <SPI.h>
+#include <MFRC522.h>
 #include <map>
 
-const char* ssid = "realme 5 Pro";
-const char* password = "solitude";
+#define SS_PIN 5
+#define RST_PIN 0
+
+MFRC522 mfrc522(SS_PIN, RST_PIN);
+
+const char* ssid = "ITK-LAB.X";
+const char* password = "K@mpusM3rdeka!";
 
 AsyncWebServer server(80);
 
@@ -29,6 +36,8 @@ bool greenMode2 = false;
 bool greenMode3 = false;
 bool greenMode4 = false;
 
+bool rfidMode = false;
+
 void setup() {
   Serial.begin(9600);
 
@@ -48,6 +57,9 @@ void setup() {
 
   // Print ESP Local IP Address
   Serial.println(WiFi.localIP());
+
+  SPI.begin();        // Initiate SPI bus
+  mfrc522.PCD_Init(); // Initiate MFRC522
 
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
     sendJsonResponse(request, 200, "Halo bang");
@@ -99,7 +111,28 @@ void setup() {
 }
 
 void loop() {
-  if(normalMode) {
+  if (rfidMode) {
+    normalMode = false; // Variabel untuk menandakan mode normal atau tidak
+    blinkMode = false; // Variabel untuk menandakan mode kuning kelap-kelip
+    stopMode = false; // Variabel untuk menandakan mode stop
+    greenMode1 = false;
+    greenMode2 = false;
+    greenMode3 = false;
+    greenMode4 = false;
+    // Print UID of the card
+    Serial.println("New RFID card detected!");
+
+    // Handle the specific logic for the detected card
+    handleRFIDCard();
+
+    delay(500);
+
+    // Halt until the card is removed
+    mfrc522.PICC_HaltA();
+
+    normalMode = true;
+    rfidMode = false;
+  }else if(normalMode) {
     // Jika dalam mode normal, jalankan urutan lampu lalu lintas normal
     runNormalTrafficLightSequence();
   } else if(blinkMode) {
@@ -122,6 +155,30 @@ void loop() {
 void sendJsonResponse(AsyncWebServerRequest *request, int status, String message) {
   String response = "{\"status\": " + String(status) + ", \"message\": \"" + message + "\"}";
   request->send(200, "application/json", response);
+}
+
+void handleRFIDCard() {
+  // Add logic to identify the RFID card and perform specific actions
+  // For example, if the detected card has a specific UID, call greenTrafficLight(3)
+  // Modify this logic based on your RFID card information
+  String cardUID = getCardUID(); // Assuming you have a function to retrieve the card UID
+  Serial.println(cardUID);
+  if (cardUID == "D3DAF11A") {   // Replace "12345678" with the actual UID of the card
+    Serial.println("Green light activated for road 3!");
+    greenTrafficLight(3);
+  } else {
+    Serial.println("Unknown RFID card detected!");
+  }
+}
+
+String getCardUID() {
+  String cardUID = "";
+  for (byte i = 0; i < mfrc522.uid.size; i++) {
+    cardUID += String(mfrc522.uid.uidByte[i] < 0x10 ? "0" : "");
+    cardUID += String(mfrc522.uid.uidByte[i], HEX);
+  }
+  cardUID.toUpperCase();
+  return cardUID;
 }
 
 void runNormalTrafficLightSequence() {
@@ -158,12 +215,25 @@ void runNormalTrafficLightSequence() {
     digitalWrite(roads[2].kuning, LOW);
 
     delay(1000); // delay 1 detik
+
+    if (mfrc522.PICC_IsNewCardPresent() && mfrc522.PICC_ReadCardSerial()) {
+      normalMode = false;
+      rfidMode = true;
+      return;
+    }
+
     if (!normalMode) {
       return;
     }
     // jalan 2 lampu hijaunya nyala dan lampu jalan yang lain jadi merah
     digitalWrite(roads[2].kuning, HIGH);
     digitalWrite(roads[2].hijau, LOW);
+
+    if (mfrc522.PICC_IsNewCardPresent() && mfrc522.PICC_ReadCardSerial()) {
+      normalMode = false;
+      rfidMode = true;
+      return;
+    }
 
     delay(3000); // delay 3 detik
     if (!normalMode) {
@@ -181,6 +251,13 @@ void runNormalTrafficLightSequence() {
     digitalWrite(roads[3].kuning, LOW);
 
     delay(1000); // delay 1 detik
+
+    if (mfrc522.PICC_IsNewCardPresent() && mfrc522.PICC_ReadCardSerial()) {
+      normalMode = false;
+      rfidMode = true;
+      return;
+    }
+
     if (!normalMode) {
       return;
     }
@@ -190,6 +267,13 @@ void runNormalTrafficLightSequence() {
     digitalWrite(roads[3].hijau, LOW);
 
     delay(3000); // delay 3 detik
+
+    if (mfrc522.PICC_IsNewCardPresent() && mfrc522.PICC_ReadCardSerial()) {
+      normalMode = false;
+      rfidMode = true;
+      return;
+    }
+
     if (!normalMode) {
       return;
     }
@@ -205,6 +289,13 @@ void runNormalTrafficLightSequence() {
     digitalWrite(roads[4].kuning, LOW);
 
     delay(1000); // delay 1 detik
+
+    if (mfrc522.PICC_IsNewCardPresent() && mfrc522.PICC_ReadCardSerial()) {
+      normalMode = false;
+      rfidMode = true;
+      return;
+    }
+
     if (!normalMode) {
       return;
     }
@@ -214,6 +305,13 @@ void runNormalTrafficLightSequence() {
     digitalWrite(roads[4].hijau, LOW);
 
     delay(3000); // delay 3 detik
+
+    if (mfrc522.PICC_IsNewCardPresent() && mfrc522.PICC_ReadCardSerial()) {
+      normalMode = false;
+      rfidMode = true;
+      return;
+    }
+
     if (!normalMode) {
       return;
     }
@@ -229,6 +327,13 @@ void runNormalTrafficLightSequence() {
     digitalWrite(roads[1].kuning, LOW);
 
     delay(1000); // delay 1 detik
+
+    if (mfrc522.PICC_IsNewCardPresent() && mfrc522.PICC_ReadCardSerial()) {
+      normalMode = false;
+      rfidMode = true;
+      return;
+    }
+
     if (!normalMode) {
       return;
     }
@@ -253,6 +358,13 @@ void runBlinkingSequence() {
     digitalWrite(roads[4].hijau, HIGH);
 
     delay(2000); // delay 2 detik
+
+    if (mfrc522.PICC_IsNewCardPresent() && mfrc522.PICC_ReadCardSerial()) {
+      blinkMode = false;
+      rfidMode = true;
+      return;
+    }
+
     if (!blinkMode) {
       return;
     }
@@ -264,6 +376,13 @@ void runBlinkingSequence() {
     digitalWrite(roads[4].kuning, HIGH);
 
     delay(2000); // delay 2 detik
+
+    if (mfrc522.PICC_IsNewCardPresent() && mfrc522.PICC_ReadCardSerial()) {
+      blinkMode = false;
+      rfidMode = true;
+      return;
+    }
+    
     if (!blinkMode) {
       return;
     }
