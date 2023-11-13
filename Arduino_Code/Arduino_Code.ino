@@ -10,8 +10,17 @@
 
 MFRC522 mfrc522(SS_PIN, RST_PIN);
 
-const char* ssid = "ITK-LAB.X";
-const char* password = "K@mpusM3rdeka!";
+const char* ssid = "realme 10";
+const char* password = "halllooo";
+
+// Set your Static IP address
+IPAddress local_IP(192, 168, 224, 100);
+// Set your Gateway IP address
+IPAddress gateway(192, 168, 224, 254);
+
+IPAddress subnet(255, 255, 0, 0);
+IPAddress primaryDNS(8, 8, 8, 8);   //optional
+IPAddress secondaryDNS(8, 8, 4, 4); //optional
 
 AsyncWebServer server(80);
 
@@ -48,15 +57,25 @@ void setup() {
     pinMode(entry.second.merah, OUTPUT);
   }
 
-  // Connect to Wi-Fi
+  // Configures static IP address
+  if (!WiFi.config(local_IP, gateway, subnet, primaryDNS, secondaryDNS)) {
+    Serial.println("STA Failed to configure");
+  }
+  
+  // Connect to Wi-Fi network with SSID and password
+  Serial.print("Connecting to ");
+  Serial.println(ssid);
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
-    delay(1000);
-    Serial.println("Connecting to WiFi..");
+    delay(500);
+    Serial.print(".");
   }
-
-  // Print ESP Local IP Address
+  // Print local IP address and start web server
+  Serial.println("");
+  Serial.println("WiFi connected.");
+  Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
+  server.begin();
 
   SPI.begin();        // Initiate SPI bus
   mfrc522.PCD_Init(); // Initiate MFRC522
@@ -163,7 +182,7 @@ void handleRFIDCard() {
   // Modify this logic based on your RFID card information
   String cardUID = getCardUID(); // Assuming you have a function to retrieve the card UID
   Serial.println(cardUID);
-  if (cardUID == "D3DAF11A") {   // Replace "12345678" with the actual UID of the card
+  if (cardUID == "E30DEA1A") {   // Replace "12345678" with the actual UID of the card
     Serial.println("Green light activated for road 3!");
     greenTrafficLight(3);
   } else {
