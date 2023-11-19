@@ -3,7 +3,7 @@ import 'package:traffic_light_controller/Component/switch_item.dart';
 import 'package:http/http.dart' as http;
 
 class SemuaJalur {
-  String ipAddress = '192.168.21.1';
+  String ipAddress = '192.168.224.100';
   Future<void> fetchData(String path) async {
     var url = Uri.parse('http://$ipAddress/$path');
     try {
@@ -232,8 +232,8 @@ class _HomeState extends State<Home> {
                               onChanged: (value) {
                                 setState(() {
                                   if (value) {
-                                    activeRoad = ActiveRoad.road3;
-                                    semuaJalur.fetchData('green?road=3');
+                                    activeRoad = ActiveRoad.road4;
+                                    semuaJalur.fetchData('green?road=4');
                                   } else {
                                     activeRoad = ActiveRoad.normal;
                                     semuaJalur.fetchData('normal');
@@ -427,6 +427,7 @@ class _HomeState extends State<Home> {
                 ),
               ),
             ),
+            SizedBox(height: 20),
           ],
         ),
       ),
